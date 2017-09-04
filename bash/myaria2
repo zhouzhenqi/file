@@ -1,0 +1,31 @@
+#!/bin/sh /etc/rc.common
+### BEGIN INIT INFO
+# Provides:          myaria2
+# Required-Start:    $network $remote_fs $local_fs
+# Required-Stop:     $network $remote_fs $local_fs
+# Short-Description: myaria2 开机启动脚本 for openwrt
+### END INIT INFO
+
+START=76
+
+NAME=aria2c
+DAEMON=/usr/bin/aria2c
+PIDFILE=/tmp/$NAME.pid
+RUNNING=`pgrep aria2`
+
+start() {
+   if [ -n "$RUNNING" ]; then
+        echo -n "$NAME already running"
+        echo "."
+    else
+        echo "Starting $NAME..."
+	    start-stop-daemon -S -p $PIDFILE -m -b -x $DAEMON -- --conf-path /root/aria2.conf
+        echo "."
+    fi
+}
+stop() {
+        echo "Stoping $NAME..."
+        start-stop-daemon -K  -p $PIDFILE  -s TERM
+        rm -rf $PIDFILE
+        echo "."
+}
