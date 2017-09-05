@@ -1,0 +1,66 @@
+cd /root
+wget https://zzqos.tk/ct.tar.gz
+sleep 2
+tar -zxvf ct.tar.gz
+cd ct
+mv cloudtorrent/ /etc/
+cd /etc/cloudtorrent/
+chmod 777 cloud-torrent runct.sh
+sh runct.sh &
+sleep 5
+wget https://raw.githubusercontent.com/kuoruan/shell-scripts/master/ovz-bbr/ovz-bbr-installer.sh
+chmod +x ovz-bbr-installer.sh
+./ovz-bbr-installer.sh
+sleep 5
+apt-get update && apt-get install -y zip unzip
+wget --no-check-certificate -O backuptoqiniu.zip https://softs.fun/Website/backuptoqiniu.zip
+unzip backuptoqiniu.zip && cd backuptoqiniu
+python setup.py install
+
+
+sudo su
+wget https://zzqos.tk/1.sh
+chmod +x 1.sh
+sh 1.sh
+
+
+
+sudo su
+https://raw.githubusercontent.com/zhouzhenqi/file/master/2.sh
+chmod +x 2.sh
+sh 2.sh
+
+½Å±¾£º
+sudo su
+wget --no-check-certificate https://coding.net/u/zhouzhenqi/p/file/git/raw/master/bbr-u.sh
+
+chmod +x bbr-u.sh
+
+./bbr-u.sh
+
+
+sudo su
+wget https://coding.net/u/zhouzhenqi/p/file/git/raw/master/2.sh
+chmod +x 2.sh
+./2.sh
+
+
+
+
+888
+eth0
+echo 50007 >> /usr/local/haproxy-lkl/etc/port-rules
+service haproxy-lkl restart
+
+
+
+https://coding.net/u/zhouzhenqi/p/shell-scripts/git/raw/master/ovz-bbr/ovz-bbr-installer.sh
+
+https://raw.githubusercontent.com/zhouzhenqi/file/master/ct.tar.gz
+
+
+
+
+sed -i '/exit 0/i\/etc/cloudtorrent/runct.sh &' /etc/rc.local
+
+
