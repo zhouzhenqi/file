@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-
+ACTION=$1
 #=================================================
 #	System Required: CentOS/Debian/Ubuntu
 #	Description: Aria2
@@ -46,35 +46,40 @@ Download_aria2(){
 	mkdir "${file}" && cd "${file}"
 	if [ ${bit} == "x86_64" ]; then
 	wget --no-check-certificate -N "https://coding.net/u/zhouzhenqi/p/shell-scripts/git/raw/master/aria2/aria2-64.tar.bz2"
-	[[ ! -s "aria2c-64.tar.bz2" ]] && echo -e "${Error} Aria2 压缩文件下载失败，重新下载!" && rm -rf "${file}"/* \
+	[[ ! -s "aria2-64.tar.bz2" ]] && echo -e "${Error} Aria2 压缩文件下载失败，重新下载!" && rm -rf "${file}"/* \
 	&& wget --no-check-certificate -N "https://raw.githubusercontent.com/zhouzhenqi/file/master/aria2/aria2-64.tar.bz2"
 	elif [ ${bit} == "i386" ]; then
 	wget --no-check-certificate -N "https://coding.net/u/zhouzhenqi/p/shell-scripts/git/raw/master/aria2/aria2-32.tar.bz2"
-	[[ ! -s "aria2c-32.tar.bz2" ]] && echo -e "${Error} Aria2 压缩文件下载失败，重新下载 !" && rm -rf "${file}"/* \
+	[[ ! -s "aria2-32.tar.bz2" ]] && echo -e "${Error} Aria2 压缩文件下载失败，重新下载 !" && rm -rf "${file}"/* \
 	&& wget --no-check-certificate -N "https://raw.githubusercontent.com/zhouzhenqi/file/master/aria2/aria2-32.tar.bz2"
 	elif [ ${bit} == "i686" ]; then
 	wget --no-check-certificate -N "https://coding.net/u/zhouzhenqi/p/shell-scripts/git/raw/master/aria2/aria2-32.tar.bz2"
-	[[ ! -s "aria2c-32.tar.bz2" ]] && echo -e "${Error} Aria2 压缩文件下载失败，重新下载 !" && rm -rf "${file}"/* \
+	[[ ! -s "aria2-32.tar.bz2" ]] && echo -e "${Error} Aria2 压缩文件下载失败，重新下载 !" && rm -rf "${file}"/* \
 	&& wget --no-check-certificate -N "https://raw.githubusercontent.com/zhouzhenqi/file/master/aria2/aria2-32.tar.bz2"
 	fi
 	tar -jxvf aria2-*.tar.bz2
 	[[ ! -s "aria2c" ]] && echo -e "${Error} Aria2 文件下载安装失败 !请检查网络和dns" && rm -rf "${file}" && exit 1
     echo '' > aria2.session
-    mv aria2c  /usr/local/bin/
+    mv -f aria2c  /usr/local/bin/
+	mv -f ca-certificates.crt /etc/ssl/certs/
 	chmod 755 /usr/local/bin/aria2c
 }
 Service_aria2(){
 	if [[ ${release} = "centos" ]]; then
 		if ! wget --no-check-certificate https://coding.net/u/zhouzhenqi/p/shell-scripts/git/raw/master/aria2/aria2_centos -O /etc/init.d/aria2; then
-			echo -e "${Error} Aria2服务 管理脚本下载失败 !" && exit 1
+			echo -e "${Error} Aria2服务 管理脚本下载失败 ,重新下载!" \
+			&& wget --no-check-certificate https://raw.githubusercontent.com/zhouzhenqi/file/master/aria2/aria2_centos -O /etc/init.d/aria2
 		fi
+		[[ ! -s "/etc/init.d/aria2" ]] && echo -e "${Error} Aria2服务 管理脚本下载失败 !" && exit 1
 		chmod +x /etc/init.d/aria2
 		chkconfig --add aria2
 		chkconfig aria2 on
 	else
 		if ! wget --no-check-certificate https://coding.net/u/zhouzhenqi/p/shell-scripts/git/raw/master/aria2/aria2_debian -O /etc/init.d/aria2; then
-			echo -e "${Error} Aria2服务 管理脚本下载失败 !" && exit 1
+			echo -e "${Error} Aria2服务 管理脚本下载失败 ,重新下载!" \
+			&& wget --no-check-certificate https://raw.githubusercontent.com/zhouzhenqi/file/master/aria2/aria2_debian -O /etc/init.d/aria2
 		fi
+		[[ ! -s "/etc/init.d/aria2" ]] && echo -e "${Error} Aria2服务 管理脚本下载失败 !" && exit 1
 		chmod +x /etc/init.d/aria2
 		update-rc.d -f aria2 defaults
 	fi
@@ -155,13 +160,16 @@ Uninstall_aria2(){
 	if [[ ${unyn} == [Yy] ]]; then
 		check_pid
 		[[ ! -z $PID ]] && kill -9 ${PID}
+		check_sys
 		if [[ ${release} = "centos" ]]; then
 			chkconfig --del aria2
 		else
 		    update-rc.d -f aria2 remove
 		fi
-		rm -rf /usr/local/bin/aria2c
-		Read_config
+		rm -rf /etc/init.d/aria2
+	    rm -rf /usr/local/bin/aria2c
+		rm -rf /etc/ssl/certs/ca-certificates.crt
+	    Read_config
 		Del_iptables
 		Save_iptables
 		rm -rf ${file}
@@ -204,8 +212,30 @@ post-down iptables-save > /etc/iptables.up.rules" >> /etc/network/interfaces
 		chmod +x /etc/network/interfaces
 	fi
 }
-
-echo && echo -e " Aria2 一键安装管理脚本
+case $ACTION in
+install)
+	Install_aria2
+	;;
+unsitall)
+	Uninstall_aria2
+	;;
+start)
+    Start_aria2
+	;;
+stop)
+	Stop_aria2
+	;;
+restart)
+	Restart_aria2
+	;;
+set)
+	Set_aria2
+	;;
+log)
+	View_Log
+	;;
+*)
+    echo && echo -e " Aria2 一键安装管理脚本
   
  ${Green_font_prefix}1.${Font_color_suffix} 安装 Aria2
  ${Green_font_prefix}2.${Font_color_suffix} 卸载 Aria2
@@ -217,41 +247,43 @@ echo && echo -e " Aria2 一键安装管理脚本
  ${Green_font_prefix}6.${Font_color_suffix} 修改 配置文件
  ${Green_font_prefix}7.${Font_color_suffix} 查看 日志信息
 ————————————" && echo
-if [[ -e ${aria2c} ]]; then
-	check_pid
-	if [[ ! -z "${PID}" ]]; then
-		echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} 并 ${Green_font_prefix}已启动${Font_color_suffix}"
-	else
-		echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} 但 ${Red_font_prefix}未启动${Font_color_suffix}"
-	fi
-else
-	echo -e " 当前状态: ${Red_font_prefix}未安装${Font_color_suffix}"
-fi
-echo
-stty erase '^H' && read -p " 请输入数字 [1-7]:" num
-case "$num" in
+    if [[ -e ${aria2c} ]]; then
+	    check_pid
+	    if [[ ! -z "${PID}" ]]; then
+		    echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} 并 ${Green_font_prefix}已启动${Font_color_suffix}"
+	    else
+		    echo -e " 当前状态: ${Green_font_prefix}已安装${Font_color_suffix} 但 ${Red_font_prefix}未启动${Font_color_suffix}"
+	    fi
+    else
+	    echo -e " 当前状态: ${Red_font_prefix}未安装${Font_color_suffix}"
+    fi
+    echo
+    stty erase '^H' && read -p " 请输入数字 [1-7]:" num
+    case "$num" in
 	1)
-	Install_aria2
-	;;
+	  Install_aria2
+	  ;;
 	2)
-	Uninstall_aria2
-	;;
+	  Uninstall_aria2
+	  ;;
 	3)
-	Start_aria2
-	;;
+	  Start_aria2
+	  ;;
 	4)
-	Stop_aria2
-	;;
+	  Stop_aria2
+	  ;;
 	5)
-	Restart_aria2
-	;;
+	  Restart_aria2
+	  ;;
 	6)
-	Set_aria2
-	;;
+	  Set_aria2
+	  ;;
 	7)
-	View_Log
-	;;
+	  View_Log
+	  ;;
 	*)
-	echo "请输入正确数字 [1-7]"
-	;;
+	  echo "请输入正确数字 [1-7]"
+	  ;;
+    esac
+    ;;
 esac
