@@ -15,8 +15,8 @@ sed -i "s/http-80/"$name"-80/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/tcp-5007/"$name"-5007/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.ini
-sed -i "s/5007/6"$pport"/g" /etc/cloudtorrent/frpc.ini
-sed -i "s/5007/6"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
+sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.ini
+sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
 ./runct.sh &
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
 sleep 2
@@ -31,3 +31,4 @@ apt autoclean
 apt update
 apt -y install nload
 nload eth0 -m -u M
+
