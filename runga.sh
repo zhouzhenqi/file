@@ -1,5 +1,4 @@
 cd /root
-#wget https://zhouzhenqi.coding.net/p/file/d/file/git/raw/master/ct.tar.bz2
 wget -O github-ct.rar https://raw.githubusercontent.com/zhouzhenqi/file/master/github-ct.rar
 sleep 1
 apt update
@@ -10,6 +9,10 @@ mv cloudtorrent/ /etc/
 cd /etc/cloudtorrent/
 chmod +x *
 ./runct.sh &
+name=$(cat /etc/hostname)
+sed -i "s/http-80/"$name"-80/g" /etc/cloudtorrent/frpc.ini
+sed -i "s/tcp-5007/"$name"-5007/g" /etc/cloudtorrent/frpc.ini
+sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.ini
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
 sleep 2
 apt -y autoremove docker docker-ce docker-engine  docker.io  containerd runc
@@ -23,4 +26,3 @@ apt autoclean
 apt update
 apt -y install nload
 nload eth0 -m -u M
-
