@@ -8,7 +8,7 @@ unrar x github-ct.rar
 mv cloudtorrent/ /etc/
 cd /etc/cloudtorrent/
 chmod +x *
-
+echo "13.107.136.9 209zzq-my.sharepoint.com" >> /etc/hosts
 name=$(cat /etc/hostname)
 pport=$(echo $name | awk -F- '{print $3}')
 sed -i "s/http-80/"$name"-80/g" /etc/cloudtorrent/frpc.ini
