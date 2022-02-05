@@ -1,6 +1,6 @@
 cd /root
-yum -y install wget tar bzip2 screen
-wget -O ct2.tar.bz2 https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.bz2
+yum -y install bzip2 screen
+curl -O https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.bz2
 sleep 1
 tar -jxvf ct2.tar.bz2
 mv cloudtorrent/ /etc/
@@ -18,7 +18,6 @@ sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
-screen -S zzq
 ./runct.sh &
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
 
