@@ -1,5 +1,6 @@
 cd /root
-yum -y install bzip2 screen
+yum -y install bzip2
+yum clean all
 curl -O https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.bz2
 sleep 1
 tar -jxvf ct2.tar.bz2
