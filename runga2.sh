@@ -1,4 +1,5 @@
-cd /root
+cd /sys/fs/cgroup/downloads
+mkdir -p 
 yum -y install bzip2
 yum clean all
 curl -O https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.bz2
@@ -19,6 +20,8 @@ sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
+sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
 ./runct.sh &
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
+
 
