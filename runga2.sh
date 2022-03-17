@@ -1,10 +1,10 @@
 cd /root
 mkdir -p /sys/fs/cgroup/downloads
-yum -y install bzip2
 yum clean all
-curl -O https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.bz2
+curl -O https://raw.githubusercontent.com/zhouzhenqi/file/master/ct2.tar.xz
 sleep 1
-tar -jxvf ct2.tar.bz2
+xz -z -d ct2.tar.xz
+tar -xvf ct2.tar
 mv cloudtorrent/ /etc/
 cd /etc/cloudtorrent/
 chmod +x *
