@@ -22,15 +22,18 @@ sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
 sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
 ./runct.sh &
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
-yum-config-manager --disable kubernetes
-yum install passwd openssl openssh-server -y
-ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N ''
-ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
-ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N ''
+#yum-config-manager --disable kubernetes
+#yum install passwd openssl openssh-server -y
+#ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N ''
+#ssh-keygen -q -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N ''
+#ssh-keygen -t dsa -f /etc/ssh/ssh_host_ed25519_key -N ''
 sed -i "s/#UsePrivilegeSeparation.*/UsePrivilegeSeparation no/g" /etc/ssh/sshd_config
 sed -i "s/UsePAM.*/UsePAM no/g" /etc/ssh/sshd_config
 echo "PermitRootLogin yes" >> /etc/ssh/sshd_config
-echo 123456 | passwd --stdin root
+echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config
+echo -e "Docker@1qaz\nDocker@1qaz" | (passwd root) 
+#echo 123456 | passwd --stdin root
+killall sshd
 /usr/sbin/sshd -D &
-yum clean all
+#yum clean all
 
