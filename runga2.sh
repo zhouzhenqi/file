@@ -13,13 +13,14 @@ b=$(($RANDOM%10))
 s=$(($RANDOM%10))
 g=$(($RANDOM%10))
 pport="$b$s$g"
+echo $pport
 sed -i "s/http-80/6"$pport"-80/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/tcp-5007/"$name"-5007/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.ini
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
-sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
+#sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
 ./runct.sh &
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
 yum-config-manager --disable kubernetes
