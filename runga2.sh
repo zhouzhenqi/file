@@ -14,15 +14,15 @@ s=$(($RANDOM%10))
 g=$(($RANDOM%10))
 pport="$b$s$g"
 echo $pport
-sed -i "s/http-80/6"$pport"-80/g" /etc/cloudtorrent/frpc.ini
-sed -i "s/tcp-5007/"$name"-5007/g" /etc/cloudtorrent/frpc.ini
-sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.ini
-sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.ini
-sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.ini
+sed -i "s/http-80/6"$pport"-80/g" /etc/cloudtorrent/frpc.toml
+sed -i "s/tcp-5007/"$name"-5007/g" /etc/cloudtorrent/frpc.toml
+sed -i "s/udp-5007/"$name"-u5007/g" /etc/cloudtorrent/frpc.toml
+sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.toml
+sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.toml
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
 #sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
 ./runct.sh &
-/etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.ini &
+/etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.toml &
 yum-config-manager --disable kubernetes
 yum install passwd openssl openssh-server -y
 ssh-keygen -q -t rsa -b 2048 -f /etc/ssh/ssh_host_rsa_key -N ''
