@@ -22,8 +22,9 @@ sed -i "s/p2p_ssh/"$name"-p2pssh/g" /etc/cloudtorrent/frpc.toml
 sed -i "s/p2p_80/"$name"-p2p80/g" /etc/cloudtorrent/frpc.toml
 sed -i "s/6080/6"$pport"/g" /etc/cloudtorrent/frpc.toml
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/frpc.toml
+sed -i "s/52222/12"$pport"/g" /etc/cloudtorrent/frpc.toml
 sed -i "s/5007/5"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
-sed -i "s/52222/12"$pport"/g" /etc/cloudtorrent/cloud-torrent.yaml
+
 
 #sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
 ./runct.sh &
