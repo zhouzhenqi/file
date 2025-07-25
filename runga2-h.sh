@@ -13,7 +13,7 @@ s=$(($RANDOM%10))
 g=$(($RANDOM%10))
 pport="$b$s$g"
 echo $pport
-nport="55$pport"
+nport="64$pport"
 echo $nport
 sed -i "s/http-80/6"$pport"-80/g" /etc/myweb/myjs.toml
 sed -i "s/tcp-22/"$name"-22/g" /etc/myweb/myjs.toml
