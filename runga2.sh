@@ -26,7 +26,7 @@ sed -i "s/5007/"$nport"/g" /etc/cloudtorrent/cloud-torrent.yaml
 
 
 #sed -i 's;/etc/cloudtorrent/downloads;/sys/fs/cgroup/downloads;g' /etc/cloudtorrent/cloud-torrent.yaml
-./nm -4 -s turn.cloudflare.com -h google.com -b $nport &
+./nm -4 -s turn.cloudflare.com -h google.com -b $nport -d
 ./runct.sh &
 /etc/cloudtorrent/frpc -c /etc/cloudtorrent/frpc.toml &
 mkdir /etc/yum.repos.d/backup && mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup/
