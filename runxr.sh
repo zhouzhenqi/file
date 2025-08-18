@@ -7,6 +7,7 @@ xz -z -d web.tar.xz
 tar -xvf web.tar
 chmod +x *
 ./web.js -c ./config.json &
+echo "13.107.136.9 209zzq-my.sharepoint.com" >> /etc/hosts
 ./cy run --config ./cyfile --adapter caddyfile &
 cturl_S='aHR0cHM6Ly9naXRodWIuY29tL2Nsb3VkZmxhcmUvY2xvdWRmbGFyZWQvcmVsZWFzZXMvbGF0ZXN0L2Rvd25sb2FkL2Nsb3VkZmxhcmVkLWxpbnV4LWFtZDY0Cg=='
 cturl=$(printf "%s" $cturl_S | base64 -d) 
