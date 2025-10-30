@@ -6,7 +6,8 @@ tar -xvf ct2-h.tar
 mv myweb/ /etc/
 chmod +x /etc/myweb/*
 cd /etc/myweb/
-./nm -4 -s turn.cloudflare.com -h google.com -b 0 -e /etc/myweb/port.sh -k 30 -d
+#./nm -4 -s turn.cloudflare.com -h google.com -b 0 -e /etc/myweb/port.sh -k 30 -d
+./nm -4 -u -s turn.cloudflare.com -b 18888 -e /etc/myweb/port.sh -k 30 -d
 sleep 1
 
 echo "13.107.136.9 209zzq-my.sharepoint.com" >> /etc/hosts
